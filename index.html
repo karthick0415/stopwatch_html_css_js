@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/jquery/jquery-3.7.1.min.js"></script>
+    <title>Stopwatch</title>
+    <style>
+        body {
+            background-color: rgb(36, 43, 73);
+        }
+
+        .con {
+            max-width: 500px;
+            min-height: 350px;
+            background-color: rgb(0, 0, 0);
+            position: relative;
+            margin: 150px auto;
+            border-radius: 20px;
+
+        }
+
+        .time {
+            width: 400px;
+            height: 250px;
+            background-color: rgb(36, 43, 73);
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            border-radius: 20px;
+        }
+
+        .btn {
+            margin-left: 20px;
+            color: white;
+            background-color: red;
+            outline: none;
+            border: 1px solid rgb(36, 43, 73);
+            border-radius: 10px;
+            padding: 10px;
+            width: 65px;
+            transition: all .5s;
+        }
+
+        .btn:hover {
+            cursor: pointer;
+            background-color: black;
+        }
+
+        .btns {
+            position: absolute;
+            bottom: 80px;
+            left: 75px;
+        }
+
+        .time h1 {
+            color: white;
+            position: inherit;
+            top: 30px;
+            left: 85px;
+            font-size: 60px;
+        }
+
+        ul li {
+            color: rgb(243, 243, 243);
+            list-style-type: none;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.164);
+            border-radius: 10px;
+            padding: 10px;
+            width: 200px;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        ul {
+            position: absolute;
+            bottom: -60px;
+            left: 100px;
+            height: 30px;
+
+        }
+
+        span {
+            display: inline-block;
+
+            width: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="con">
+        <div class="time">
+            <h1 id="tm">00:00:00</h1>
+
+        </div>
+        <div class="btns">
+            <button class="btn start-btn" onclick="start()">start</button>
+            <button class="btn" onclick="stop()">stop</button>
+            <button class="btn" onclick="lap()">lap</button>
+            <button class="btn" onclick="resets()">reset</button>
+        </div>
+        <ul id="laps"></ul>
+
+    </div>
+
+
+    <script>
+        let millisecond = 1, interval, second = 0, minute = 0, index = 1;
+        let button = document.getElementsByClassName("btn")[0];
+        let time = document.getElementById("tm");
+        let start = () => {
+            interval = setInterval(() => {
+                if (millisecond < 10 && second < 10 && minute < 10)
+                    time.innerHTML = `0${minute}:0${second}:0${millisecond}`
+                else if (millisecond > 9 && second < 10 && minute < 10)
+                    time.innerHTML = `0${minute}:0${second}:${millisecond}`
+                else if (millisecond > 9 && second > 9 && minute < 10)
+                    time.innerHTML = `0${minute}:${second}:${millisecond}`
+                else if (millisecond > 9 && second > 9 && minute > 9)
+                    time.innerHTML = `${minute}:${second}:${millisecond}`
+                if (millisecond >= 99) {
+                    millisecond = 0;
+                    second++;
+                }
+                if (second >= 60) {
+                    second = 0;
+                    minute++
+                }
+                millisecond++;
+            }, 10)
+            button.style.visibility = "hidden";
+        }
+        function stop() {
+            button.style.visibility = "visible";
+            clearInterval(interval);
+        }
+        function resets() {
+            millisecond = 1, second = 0, minute = 0, index = 1;
+            stop();
+            time.innerHTML = "00:00:00";
+            document.getElementById("laps").innerHTML = "";
+        }
+        function lap() {
+            document.getElementById("laps").insertAdjacentHTML("afterbegin", `<li><span>${index++}</span>${time.textContent}</li>`);
+        }
+
+    </script>
+
+</body>
+
+</html>
