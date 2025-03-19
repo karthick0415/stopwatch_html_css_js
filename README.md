@@ -11,7 +11,7 @@ A simple stopwatch web application built with HTML, CSS, and JavaScript. It allo
 
 ## 🖥️ Preview
 
-![Stopwatch Preview](image.png)
+![Stopwatch Preview](demo.png)
 
 ## 🚀 Installation
 
